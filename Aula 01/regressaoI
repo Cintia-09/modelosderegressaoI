@@ -1,0 +1,104 @@
+#Aula de regressão I
+#dados
+p= c(1.2, 1.3, 1.4, 1.6, 1.6, 1.8, 1.9, 1.9, 2.2, 2.2, 2.6) #var. explicativa
+p
+d= c(16, 12, 12, 14, 10, 14, 12, 9.9, 10, 7, 7.5) #vari. resposta
+d
+
+plot(p,d,pch=19) # diagrama de dispersao
+ m = lm(d~p);m
+
+#objetos 
+ length(d)
+ sx= sum(p);sx 
+ sy= sum(d); sy
+ mx= mean(p); mx
+ my= mean(d);my
+ sx2= sum(p^2);sx2
+ sy2= sum(d^2); sy2
+ sxx= sum((p- mx)^2);sxx
+ syy= sum((d- my)^2);syy
+ sx_y=sum(p*d);sx_y
+ sxy= sum((p-mx)*(d-my));sxy
+ b_1= (sx_y - (sx*sy)/length(d))/(sx2 - (sx^2)/length(d));b_1
+ b_0= my - b_1*mx;b_0
+espx2= sum(p^2);espx2
+espx_2= sum(p)^2;espx_2
+
+ 
+  names(m)
+ m$coe[1]
+ m$coe[2]
+ 
+ #modelo ajustado
+ ma = function(p){as.numeric(m$coe[1] +  m$coe[2]*p)}
+ ma
+ 
+ 
+ #reta ajustada
+ abline(m,col="blue",lwd = 2)
+
+ #reta ajustada 
+ #abline(m$oe[1], m$coe[2], col= "w)hite", lwd = 1)
+  points(p,ma(p), col = "violet", pch = 19, lwd= 9)
+ 
+ 
+ #resumo
+  summary(m)
+ 
+ #modelo
+ m= lm(d~p)
+ m
+ names(m)
+
+ 
+ #coeficinetes\hat(\beta_1)
+ m$coe[1]
+ m$coe[2]
+ 
+ length(d)
+ 
+ m$fit
+ ma(p)
+ m$res
+ m$coef
+ 
+ QMRes= sum((d -  m$fit)^2/ (length(d)-2)); QMRes
+ dpb0= sqrt(QMRes*(1/length(d)+(mx^2)/sxx)); dpb0
+ dpb1= sqrt(QMRes/sxx); dpb1
+ 
+ #Variancia
+ 
+ sigma2= QMRes
+ sigma2
+ 
+ #desvio padrao
+ sigma= sqrt(QMRes)
+ sigma
+ 
+#anova
+SQReg= b_1 *  sxy;SQReg
+SQRes= sum((d - m$fit)^2);SQRes
+SQTot= syy;SQTot
+ 
+#coeficiente de determinação
+R2= 1-sqres/sqtot 
+ 
+ 
+#teste de hipotese
+  n= length(d)
+ to= m$coef[1]/sqrt(QMRes*(1/n +(mx^2)/sxx));to
+ t1= m$coef[2]/sqrt(QMRes/sxx);t1
+ 
+ #nivel descritivo
+ n= length(d);n
+
+ndb0= 2* min(pt(7.970, n-2), pt(7.970, n-2, low= F));ndb0
+ndb1= 2*min(pt(-3.597, n-2), pt(-3.597, n-2, low= F));ndb1
+
+#F estatistic
+
+F0= SQReg/(SQRes/(n-2));F0
+
+#R2 ajustado
+R2ajust= R2-(1-R2)/(n-2);R2ajust
