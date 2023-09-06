@@ -28,4 +28,34 @@ b_0= my - b_1*mx;b_0
 espx2= sum(x^2);espx2
 espx_2= sum(x)^2;espx_2
 
+#ajuste do modelo
+m= lm(y~x); m
+
+
+min(x)
+max(x)
+#consumo médio estimado para cada variação de temperatura
+
+
+names(m)
+m$coe[1]
+m$coe[2]
+
+#estimativa do consumo esperado quando a temperatura média for 55
+ma = function(x){(m$coe[1] +  m$coe[2]*x)}
+ma
+ma(55)
+
+
+ma(54:56);diff(ma(54:56));diff(ma(x));diff(ma(sort(x)))
+
+plot(x,y,pch=19) # diagrama de dispersao
+
+#reta ajustada
+abline(m,col="red",lwd = 2)
+
+#reta ajustada 
+#abline(m$oe[1], m$coe[2], col= "w)hite", lwd = 1)
+points(x,ma(x), col = "violet", pch = 19, lwd= 9)
+plot(m)
 m= lm(y~x); m
