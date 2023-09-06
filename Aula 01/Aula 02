@@ -1,0 +1,31 @@
+########Aula Modelos de Regressao -  06/09/2023###########
+
+#y= consumo
+#x= temperatura
+
+
+x= c(21, 24, 32, 47, 50, 59, 68, 74, 62, 50, 41, 30)
+y= c( 185.79, 214.47, 288.03, 424.84,
+      454.58, 539.03, 621.55, 675.06, 562.03,
+      452.93, 369.95, 273.98)
+
+sx= sum(x);sx
+sy= sum(y);sy
+
+sx2= sum(x^2);sx2
+sy2= sum(y^2);sy2
+
+n= length(y)
+
+mx= mean(x); mx
+my= mean(y);my
+sxx= sum((x- mx)^2);sxx
+syy= sum((y- my)^2);syy
+sx_y=sum(x*y);sx_y
+sxy= sum((x-mx)*(y-my));sxy
+b_1= (sx_y - (sx*sy)/n)/(sx2 - (sx^2)/n);b_1
+b_0= my - b_1*mx;b_0
+espx2= sum(x^2);espx2
+espx_2= sum(x)^2;espx_2
+
+m= lm(y~x); m
