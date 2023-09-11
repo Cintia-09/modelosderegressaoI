@@ -76,3 +76,9 @@ m
 xm= x - mean(x)
 m2= lm(y~xm);m2
 m
+
+#MRLS
+m3= lm(y~0+x);m3
+plot(x,y,pch=19, col= "red",
+     lwd= 3, cex.axis=2)
+summary(m)
