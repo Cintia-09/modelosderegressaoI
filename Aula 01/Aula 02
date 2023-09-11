@@ -1,5 +1,5 @@
 ########Aula Modelos de Regressao -  06/09/2023###########
-
+###exercicio 10.6
 #y= consumo
 #x= temperatura
 
@@ -58,3 +58,15 @@ abline(m,col="red",lwd = 2)
 #abline(m$oe[1], m$coe[2], col= "w)hite", lwd = 1)
 points(x,ma(x), col = "violet", pch = 19, lwd= 9)
 plot(m)
+
+summary(m)
+anova(m)
+####exercicio extra
+
+#e)
+###transformando x
+xc= ((x-32)*5)/9
+plot(xc,y,pch=19,col="blue", cex=2)
+
+###MRLS com x transformando
+m1= lm(y~xc);m1
