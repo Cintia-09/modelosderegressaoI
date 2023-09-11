@@ -68,5 +68,11 @@ anova(m)
 xc= ((x-32)*5)/9
 plot(xc,y,pch=19,col="blue", cex=2)
 
-###MRLS com x transformando
+###MRLS com x transformando: c=((F-32)*5)/9
 m1= lm(y~xc);m1
+m
+
+###MRLS com x transformando: w= x- mean(x)
+xm= x - mean(x)
+m2= lm(y~xm);m2
+m
