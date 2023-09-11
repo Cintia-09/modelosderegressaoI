@@ -1,0 +1,22 @@
+
+x= c(2205,2096,1847,1903,1457,1848,1564,1821,2577,2476,1984,1917,1761,1709,
+     1901,2288,2072,2861,2411,2289,2203,2592,2053,1979,2048,1786,2876,2560)
+y=c(10,11,11,13,10,11,10,11,4,2,7,10,9,9,6,5,5,5,6,4,3,3,4,10,6,8,2,0)
+n= length(y);n
+sx= sum(x);sx
+sy= sum(y);sy
+sx2= sum(x^2);sx2
+sy2= sum(y^2);sy2
+n= length(y)
+mx= mean(x); mx
+my= mean(y);my
+sxx= sum((x- mx)^2);sxx
+syy= sum((y- my)^2);syy
+sx_y=sum(x*y);sx_y
+sxy= sum((x-mx)*(y-my));sxy
+b_1= (sx_y - (sx*sy)/n)/(sx2 - (sx^2)/n);b_1
+b_0= my - b_1*mx;b_0
+espx2= sum(x^2);espx2
+espx_2= sum(x)^2;espx_2
+#ajuste do modelo
+m= lm(y~x); m
