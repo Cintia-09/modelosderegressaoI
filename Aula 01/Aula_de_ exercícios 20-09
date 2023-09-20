@@ -1,0 +1,58 @@
+### aula de regressao exercicios
+
+y= c(1,0,1,2,5,1,4,6,2,3,5,4,6,8,4,5,7,9,7,6)
+x= c(60,63,65,70,70,70,80,80,80,80,85,89,90,90,90,90,94,100,100,100)
+
+
+sx= sum(x);sx
+sy= sum(y);sy
+
+sx2= sum(x^2);sx2
+sy2= sum(y^2);sy2
+
+n= length(y);n
+n= length(x);n
+
+
+mx= mean(x); mx
+my= mean(y);my
+sxx= sum((x- mx)^2);sxx
+syy= sum((y- my)^2);syy
+sx_y=sum(x*y);sx_y
+sxy= sum((x-mx)*(y-my));sxy
+b_1= (sx_y - (sx*sy)/n)/(sx2 - (sx^2)/n);b_1
+b_0= my - b_1*mx;b_0
+espx2= sum(x^2);espx2
+espx_2= sum(x)^2;espx_2
+
+#ajuste do modelo
+m= lm(y~x); m
+plot(x,y)
+
+
+names(m)
+m$coe[1]
+m$coe[2]
+
+#reta ajustada
+abline(m,col="red",lwd = 2)
+
+#estimativa do consumo esperado quando a temperatura média for 55
+ma = function(x){(m$coe[1] +  m$coe[2]*x)}
+ma
+
+#reta ajustada 
+#abline(m$oe[1], m$coe[2], col= "w)hite", lwd = 1)
+points(x,ma(x), col = "blue", pch = 19, lwd= 9)
+
+summary(m)
+anova(m)
+confint(m)
+
+#intervalo de confiança
+IC_mu_x0 = predict(m,interval = "confidence");IC_mu_x0
+
+#intervalo de prediçao
+IP_y0 = predict(m,interval = "predict");IP_y0
+
+
