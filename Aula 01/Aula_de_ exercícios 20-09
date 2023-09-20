@@ -48,6 +48,7 @@ points(x,ma(x), col = "blue", pch = 19, lwd= 9)
 summary(m)
 anova(m)
 confint(m)
+confint(m,level = 0.99)
 
 #intervalo de confiança
 IC_mu_x0 = predict(m,interval = "confidence");IC_mu_x0
