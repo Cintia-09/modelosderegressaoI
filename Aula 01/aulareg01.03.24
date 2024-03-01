@@ -35,7 +35,7 @@ abline(20.2,-5)
 text(2.2,16,"coeficientes: 20.2,-5.0",cex= 1, family="serif")
 ####cex = tamanho da fonte do texto
 
-######## construa uma função para retornar ychapeu para qualquer x
+########5- construa uma função para retornar ychapeu para qualquer x
 
 ###ychapeu= 20,199 - 4,964x
 
@@ -43,7 +43,7 @@ ychapeu= function(v){
   20.199 - 4.964*v
 }
 
-####construir um dta frame com as colunas x,y,ychapeu.
+####6- construir um dta frame com as colunas x,y,ychapeu.
 
 df= data.frame(x,y,ychapeu(x));df
 
@@ -59,4 +59,9 @@ plot(x,ychapeu(x), pch= 17,col= "red", cex=3)
 abline(m)
 
 
+#######9 - o que retorna a função predict?
 
+predict(m)
+###função que entrega o ychapeu
+
+ychapeu(m)
