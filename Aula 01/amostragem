@@ -1,0 +1,64 @@
+######Francisca cíntia de sousa Barros
+
+install.packages('TeachingSampling')
+library(TeachingSampling) 
+
+
+###Questão 01
+#####análise descritiva das variáveis:
+
+data(Lucy)
+names(Lucy)
+head(Lucy)
+dim(Lucy)
+summary(Lucy)
+
+Lucy[c(3:5,8)]
+length(Lucy)
+
+p= Income;p
+
+sx= sum(p);sx 
+mx= mean(p); mx
+sx2= sum(p^2);sx2
+sxx= sum((p- mx)^2);sxx
+espx2= sum(p^2);espx2
+espx_2= sum(p)^2;espx_2
+
+######Gráficos
+
+#######Level
+tabela.level= table(Lucy$Level);tabela.level
+plot(tabela.level)
+plot(as.factor(tabela.level))
+barplot(tabela.level,col="red")
+
+######Zone
+tabela.zone= table(Lucy$Zone);tabela.zone
+plot(tabela.zone)
+plot(as.factor(tabela.zone))
+barplot(tabela.zone,col="blue")
+
+
+#####Income
+tabela.income= table(Lucy$Income);tabela.income
+plot(tabela.income)
+plot(as.factor(tabela.income))
+barplot(tabela.income,col="violet")
+
+install.packages("ggplot2")
+library(ggplot2)
+
+ggplot(Lucy, aes(x=Level, y=SPAM, )+
+  geom_boxplot() + 
+  ggtitle('Nível')
+
+
+#####SPAM
+tabela.spam= table(Lucy$SPAM);tabela.spam
+plot(tabela.spam)
+plot(as.factor(tabela.spam))
+barplot(tabela.spam,col="gray")
+
+#####Questão 02
+set.seed(13032024)
