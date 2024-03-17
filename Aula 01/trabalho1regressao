@@ -1,0 +1,196 @@
+
+#TRABALHO DE REGRESSAO - 01
+
+#EMANUELE CRISTINA SILVA MATIAS
+#FRANCISCA CINTIA DE SOUSA BARROS
+#JULIANA SAMPAIO DA SILVA
+
+S=c(1.9302,3.1739,2.1069,3.1007,2.5469,3.0653,2.6509,2.2380,2.8540,3.2205,2.2430,
+    1.9026,2.1384,2.5322,4.2250,4.1023,3.8000,4.7052,3.1561,2.9920,4.4161,4.0053,
+    2.2615,5.0923,4.5276,1.9076,4.4946) #var. resposta
+E=c(0,17,9,15,9,15,8,5,13,20,11,1,6,7,23,20,18,26,11,10,29,22,4,22,25,9,25)#vari.explicativa
+cbind(S,E)
+
+n= length(E);n
+dados <- data.frame(x,y); dados
+
+####Análise Exploratória de S
+summary(S)
+var(S)
+sd(S)
+
+#Análise Exploratória de E
+summary(E)
+var(E)
+sd(E)
+
+
+#objetos
+sx= sum(E);sx 
+sy= sum(S); sy
+mx= mean(E); mx
+my= mean(S);my
+sx2= sum(E^2);sx2
+sy2= sum(S^2); sy2
+sxx= sum((E- mx)^2);sxx
+syy= sum((S- my)^2);syy
+sx_y=sum(E*S);sx_y
+sxy= sum((E-mx)*(E-my));sxy
+espx2= sum(E^2);espx2
+espx_2= sum(E)^2;espx_2
+
+
+
+#Gráficos
+
+#Diagrama de Dispersão
+
+plot(E,S,pch=19,main="Diagrama de Dispersão")
+m = lm(S~E);m
+ 
+
+#boxplot
+
+par(mfrow=c(1, 2))  
+boxplot(E,data = InsectSprays, col = "lightblue", main="Experiência")
+boxplot(S, data = InsectSprays, col = "lightgray", main="Salário")
+
+#histograma
+par(mfrow=c(1, 2))  
+hist(S,col="orange", border="black", prob=TRUE, xlab="MPG",
+     ylab="Densidade", main="Salário")
+abline(v = mean(S), col = "blue")
+hist(E,col="blue", border="black", prob=TRUE, xlab="MPG", 
+     ylab="Densidade", main="Experiência")
+abline(v = mean(E), col = "red")
+
+#correlação
+cor(E,S)
+cor.test(E,S) 
+
+#Teste da Normalidade de Shapiro
+shapiro.test(S)
+shapiro.test(E)
+
+
+
+#####Análise de Regressão#####
+
+#coeficientes
+m$coef[1]
+m$coef[2]
+
+#modelo
+m = lm(S~E);m
+names(m)
+
+#Gráficos
+#Diagrama de Dispersão
+m = lm(S~E);m
+plot(S~E,pch=19, main="Diagrama de Dispersão")
+abline(m)
+
+#modelo ajustado
+
+ma = function(S){as.numeric(m$coe[1] +  m$coe[2]*S)}
+ma
+
+#reta ajustada
+abline(m,col="red",lwd = 2)
+
+#reta ajustada 
+#abline(m$coe[1], m$coe[2], col= "w)hite", lwd = 1)
+points(E,ma(E), col = "blue", pch = 19, lwd= 9)
+
+
+#resumo
+summary(m)
+anova(m)
+#Intervalos de Confiança
+confint(m)
+
+
+
+m$fit#Valores Ajustados
+ma(E)#modelo ajustado
+m$res#residuos
+m$coef#coeficientes
+
+#parametros
+b_1= (sx_y - (sx*sy)/length(E))/(sx2 - (sx^2)/length(E));b_1
+b_0= my - b_1*mx;b_0
+
+#anova
+QMRes= sum((E -  m$fit)^2/ (length(E)-2)); QMRes
+dpb0= sqrt(QMRes*(1/length(E)+(mx^2)/sxx)); dpb0
+dpb1= sqrt(QMRes/sxx); dpb1
+
+#Variancia
+sigma2= QMRes
+sigma2
+
+#desvio padrao
+sigma= sqrt(QMRes)
+sigma
+
+#minimos quadrados
+SQReg= b_1 *  sxy;SQReg
+SQRes= sum((E - m$fit)^2);SQRes
+SQTot= syy;SQTot
+
+
+
+######### coeficiente de determinação##########
+R2= 1-SQRes/SQTot;R2
+
+
+#teste de hipotese
+n= length(E)
+to= m$coef[1]/sqrt(QMRes*(1/n +(mx^2)/sxx));to
+t1= m$coef[2]/sqrt(QMRes/sxx);t1
+
+#nivel descritivo
+n= length(E);n
+
+ndb0= 2* min(pt(7.970, n-2), pt(7.970, n-2, low= F));ndb0
+ndb1= 2*min(pt(-3.597, n-2), pt(-3.597, n-2, low= F));ndb1
+
+#F estatistic
+
+F0= SQReg/(SQRes/(n-2));F0
+
+#R2 ajustado
+R2ajust= R2-(1-R2)/(n-2);R2ajust
+
+
+
+#graficos
+
+#dispersao
+plot(E,S, pch=19) 
+abline(lm(S~E))
+
+#Análise dos Resíduos
+par(mfrow=c(1, 2))
+plot(fitted(m),residuals(m),xlab="Valores Ajustados",ylab="Resíduos")
+abline(h=0)
+plot(E,residuals(m),xlab="Experiência",ylab="Resíduos")
+abline(h=0)
+
+#graficos do modelo
+plot(m)
+#Residuos vs fiited
+#normalQ_Q
+#scale - location 
+#Residual vs leverage
+
+#suposição de normalidade dos erros
+qqnorm(residuals(m),pch=19, ylab="Resíduos",xlab="Quantis teóricos",main="")
+qqline(residuals(m))
+
+#Teste de Normalidade de Shapiro Wilk
+shapiro.test(residuals(m))
+ 
+pairs(dados)
+
+
