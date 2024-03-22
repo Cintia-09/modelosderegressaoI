@@ -32,6 +32,12 @@ m = lm(p~r);m
 names(m)
 m$coe[1]
 m$coe[2]
+names(m)
+m$coe[1] ####coeficiente bo
+m$coe[2] ####coeficiente b1
+m$fitted.values ####valores ajustados
+m$residuals
+cbind(r - m$fitted.values,m$residuals)
 
 #modelo ajustado
 ma = function(r){as.numeric(m$coe[1] +  m$coe[2]*r)}
