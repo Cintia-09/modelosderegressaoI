@@ -1,0 +1,49 @@
+####Atividade Regressão 1
+######Francisca Cíntia de Sousa Barros
+#######408417
+
+p=c(45,38,45,38,44,38,43,37,44,38,45,38,43,36);p #####permeabilidade(y)
+r=c(1.7, 4.1,1.9,3.9,1.7,4.1,2,6.1,1.7,3.8,1.7,3.8,2.2,4.3);r######resistencia(x)
+n= 14;n
+length(r)
+length(p)
+
+#objetos 
+
+sy= sum(p);sy 
+sx= sum(r); sx
+my= mean(p); my
+mx= mean(r);mx
+sy2= sum(p^2);sy2
+sx2= sum(r^2); sx2
+syy= sum((p- my)^2);syy
+sxx= sum((r- mx)^2);sxx
+sx_y=sum(p*r);sx_y
+sxy= sum((p-mx)*(r-my));sxy
+b_1= (sx_y - (sx*sy)/length(p))/(sx2 - (sx^2)/length(p));b_1
+b_0= my - b_1*mx;b_0
+espx2= sum(r^2);espx2
+espx_2= sum(p)^2;espx_2
+
+plot(r,p,pch=19) # diagrama de dispersao
+m = lm(p~r);m
+
+names(m)
+m$coe[1]
+m$coe[2]
+
+#modelo ajustado
+ma = function(r){as.numeric(m$coe[1] +  m$coe[2]*r)}
+ma
+
+#reta ajustada
+abline(m,col="blue",lwd = 2)
+
+#reta ajustada 
+#abline(m$oe[1], m$coe[2], col= "white", lwd = 1)
+points(r,ma(r), col = "violet", pch = 19, lwd= 9)
+
+#resumo
+summary(m)
+anova(m)
+confint(m)
