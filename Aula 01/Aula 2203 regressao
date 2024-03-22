@@ -25,7 +25,8 @@ b_0= my - b_1*mx;b_0
 espx2= sum(r^2);espx2
 espx_2= sum(p)^2;espx_2
 
-plot(r,p,pch=19) # diagrama de dispersao
+plot(r,p,pch=19,xlab = "Resisência"
+     ,ylab = "Permeabilidade", main = "Análise de concreto") # diagrama de dispersao
 m = lm(p~r);m
 
 names(m)
