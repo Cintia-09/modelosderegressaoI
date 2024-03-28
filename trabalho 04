@@ -1,0 +1,201 @@
+install.packages("lattice")
+library(lattice)
+if(!require("pacman")) install.packages("pacman")
+pacman::p_load(
+  "performance",
+  "lme4",
+  "see",
+  "qqplotr"
+)
+
+dados = data.frame(Ex11_08);dados
+
+### Exemplo 11_8, Montgomery ###
+#y= resistencia ao puxamento
+#x1= altura da coluna
+#x2= altura da alça
+#x3= comprimento do fio
+#x4= largura da cola no molde
+#x5= largura da cola na coluna
+
+# Subconjuntos que podem ser formados de tamanho 1 até k
+k <- ncol(Ex11_08) - 1;k
+
+# Quantidade total de modelos
+sum(sapply(1:k, choose, n = k))
+
+# Recursos para avaliar todas as combinações possíveis.
+
+library(leaps)
+
+ls("package:leaps")
+
+# Melhor modelo de cada tamanho.
+# `nvmax` é o limite superior para o tamanho do modelo.
+b0 <- regsubsets(y~x1+x2+x3+x4+x5+x6, data=Ex11_08,method = "exhaustive",nvmax = 12)
+sel <- summary(b0); sel
+
+# Extrai as medidas de ajuste.
+mea <- sapply(c("rsq", "rss", "adjr2", "cp", "bic"),
+              FUN = function(i) sel[[i]])
+mea <- cbind(mod = 1:nrow(mea), as.data.frame(mea)); mea
+
+# Exibe as medidas de ajuste.
+f <- paste(paste(colnames(mea)[-1], collapse = " + "), " ~ mod")
+xyplot(as.formula(f),
+       data = mea,
+       outer = TRUE,
+       scales = "free",
+       type = "h",
+       lwd = 3,
+       as.table = TRUE,
+       xlab = "Modelo",
+       ylab = "Medida de ajuste")
+
+
+str(sel)
+
+# Variáveis do melhor modelo
+v <- names(which(sel$which[2, ])[-1])
+v
+
+
+summary(lm(y~x1+x2+x3+x4+x5+x6, data=Ex11_08[, c("y", v)]))
+
+#Definindo os modelos- (interações)
+m1 = lm(y~x1, data=Ex11_08);m1
+m12= lm(y~x1+x2, data=Ex11_08);m12
+m13= lm(y~x1+x3, data=Ex11_08);m13
+m14= lm(y~x1+x4, data=Ex11_08);m14
+m15= lm(y~x1+x5, data=Ex11_08);m15
+m16= lm(y~x1+x6, data=Ex11_08);m16
+m123= lm(y~x1+x2+x3, data=Ex11_08);m123
+m124= lm(y~x1+x2+x4, data=Ex11_08);m124
+m125= lm(y~x1+x2+x5, data=Ex11_08);m125
+m126= lm(y~x1+x2+x6, data=Ex11_08);m126
+m1234= lm(y~x1+x2+x3+x4, data=Ex11_08);m1234
+m1235= lm(y~x1+x2+x3+x5, data=Ex11_08);m1235
+m1236= lm(y~x1+x2+x3+x6, data=Ex11_08);m1236
+m12345= lm(y~x1+x2+x3+x4+x5, data=Ex11_08);m12345
+m12346= lm(y~x1+x2+x3+x4+x6, data=Ex11_08);m12346
+m123456= lm(y~x1+x2+x3+x4+x5+x6, data=Ex11_08);m123456
+
+
+m2 = lm(y~x2, data=Ex11_08);m2
+m23= lm(y~x2+x3, data=Ex11_08);m23
+m24= lm(y~x2+x4, data=Ex11_08);m24
+m25= lm(y~x2+x5, data=Ex11_08);m25
+m26= lm(y~x2+x6, data=Ex11_08);m26
+m234= lm(y~x2+x3+x4, data=Ex11_08);m234
+m235= lm(y~x2+x3+x5, data=Ex11_08);m235
+m236= lm(y~x2+x3+x6, data=Ex11_08);m236
+m2345= lm(y~x2+x3+x4+x5, data=Ex11_08);m2345
+m2346= lm(y~x2+x3+x4+x6, data=Ex11_08);m2346
+m23456= lm(y~x2+x3+x4+x5+x6, data=Ex11_08);m23456
+
+m3 = lm(y~x3, data=Ex11_08);m3
+m34= lm(y~x3+x4, data=Ex11_08);m34
+m35= lm(y~x3+x5, data=Ex11_08);m35
+m36= lm(y~x3+x6, data=Ex11_08);m36
+m345= lm(y~x3+x4+x5, data=Ex11_08);m345
+m346= lm(y~x3+x4+x6, data=Ex11_08);m346
+m3456= lm(y~x3+x4+x5+x6, data=Ex11_08);m3456
+
+m4 = lm(y~x4, data=Ex11_08);m4
+m45= lm(y~x4+x5, data=Ex11_08);m45
+m46= lm(y~x4+x6, data=Ex11_08);m46
+m456= lm(y~x4+x5+x6, data=Ex11_08);m456
+
+m5 = lm(y~x5, data=Ex11_08);m5
+m56= lm(y~x5+x6, data=Ex11_08);m56
+
+m6 = lm(y~x6, data=Ex11_08);m6
+
+
+### indices do modelo AIC, AICC,BIC,R2, R2 (adj.),RMSE, Sigma
+model_performance(m1)
+model_performance(m2)
+model_performance(m3)
+model_performance(m4)
+model_performance(m5)
+model_performance(m6)
+
+compare = compare_performance(m1, 
+                    m12,
+                    m13,
+                    m14,
+                    m15,
+                    m16,
+                    m123,
+                    m124,
+                    m125,
+                    m126,
+                    m1234,
+                    m1235,
+                    m1236,
+                    m12345,
+                    m12346,
+                    m123456,
+                    m2, 
+                    m23,
+                    m24,
+                    m25,
+                    m26,
+                    m234,
+                    m235,
+                    m236,
+                    m2345,
+                    m2346,
+                    m23456,
+                    m3, 
+                    m34,
+                    m35,
+                    m36,
+                    m345,
+                    m346,
+                    m3456,
+                    m4,
+                    m45,
+                    m46,
+                    m456,
+                    m5,
+                    m56,
+                    m6, rank = TRUE)
+
+compare
+
+# Checa modelos
+plot(compare)
+
+# Gráficos para checar modelo #
+
+check_model(m3)
+check_model(m4)
+check_model(m34)
+
+# Checa normalidade
+check_normality(m123456)
+plot(check_normality(m123456), type = "density")
+
+
+#Anovas
+a1 = anova(m1);a1
+a2 = anova(m2);a2
+a3 = anova(m3);a3
+a4 = anova(m4);a4
+a5 = anova(m5);a5
+a6 = anova(m6);a6
+a123456= anova(m123456);a123456
+
+##Métodos passo a passo (stepwise)
+summary(m123456)
+
+# Critério de seleção AIC: k = 2.
+mAIC <- step(m123456, direction = "both")
+summary(mAIC)
+
+# Critério de seleção BIC: k = log(n).
+mBIC <- step(m123456, direction = "both", k = log(nrow(Ex11_08)))
+summary(mBIC)
+
+
