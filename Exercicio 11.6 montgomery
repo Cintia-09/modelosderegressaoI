@@ -1,0 +1,93 @@
+dados= data.frame(Ex11_06);dados
+
+y=dados$y
+x1=dados$X1;x1
+x2=dados$X2;x2
+x3=dados$X3;x3
+x4=dados$X4;x4
+#-=-=-
+
+#-=-=- Definindo os modelos 
+
+m1=lm(y~x1);m1
+m2=lm(y~x2);m2
+m3=lm(y~x3);m3
+m12=lm(y~x1+x2);m12
+m123=lm(y~x1+x2+x3);m123
+
+X12 = model.matrix(m12)[,-1];X12
+mX12 = lm(y~X12);mX12
+
+X123 = model.matrix(m123)[,-1];X123
+mX123 = lm(y~X123);mX123
+#-=-=-
+
+#-=-=- Anovas do papel que o prof. entregou em sala 
+a1=anova(m1);a1
+a2=anova(m2);a2
+a3=anova(m3);a3
+
+a12=anova(m12);a12
+ax12=anova(mX12);ax12
+
+a123=anova(m123);a123
+ax123=anova(mX123);ax123
+#-=-=-
+
+#-=-=- QUESTAO 1 - Testar a significancia de x3 na presenÃ§a de x1 e x2
+#SQreg(b1,b2,b3/b0) - SQreg(b1,b2/b0)
+#SQreg(b1,b2,b3/b0) = ax123[1,2] primeira linha 2 coluna ou ax123$`Sum Sq`[1]
+
+SQreg.1 = ax123[1,2]-ax12[1,2];SQreg.1
+#ou
+ax123$`Sum Sq`[1]-ax12$`Sum Sq`[1]
+
+SQres.1 = ax123[2,2];SQres.1
+
+r.1=1; n=length(y); p=4 
+
+Fo.1 = (SQreg.1/r.1)/(SQres.1/(n-p));Fo.1
+
+p.valor.1 = pf(Fo.1,r.1,n-p,low=F);p.valor.1 #P(F_r;n-p > Fo) = P(F_1,8 > 0.4184) = 0.5358
+
+#NÃ£o rejeitamos H0, x3 nÃ£o contribui significativamente
+
+#-=-=-
+
+
+#-=-=- QUESTAO 2 - Testar a significancia de x3 e x2 na presenÃ§a de x1
+SQreg.2 = ax123[1,2] - a1[1,2];SQreg.2
+
+SQres.2 = ax123[2,2];SQres.2
+
+r.2 = 2
+
+Fo.2 = (SQreg.2/r.2)/(SQres.2/(n-p));Fo.2
+
+p.valor.2 = pf(Fo.2,r.2,n-p,low=F);p.valor.2
+
+#Nao rejeitamos H0, x3 e x2 nÃ£o contribuem significativamente
+
+#-=-=-
+
+
+#-=-=- QUESTAO 6 - Qdo x2 Ã© adicionada ao modelo que jÃ¡ contem x1, a SQres Ã© reduzida
+#em quantos porcento?
+
+SQreg.6 = ax12[1,2] - a1[1,2];SQreg.6
+
+SQres.6 = a1[2,2];SQres.6
+
+R2y2.1 = SQreg.6/SQres.6;R2y2.1
+
+#-=-=- 
+
+
+#-=-=- QUESTAO 7 - Qdo x3 Ã© adc ao modelo q ja contem x1 e x2, a SQres Ã© reduzida
+#em quantos porcento?
+
+SQreg.7 = ax123[1,2] - ax12[1,2];SQreg.7
+
+SQres.7 = ax12[2,2];SQres.7
+
+R2y3.12 = SQreg.7/SQres.7;R2y3.12
