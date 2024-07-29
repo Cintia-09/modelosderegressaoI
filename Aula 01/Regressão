@@ -1,0 +1,193 @@
+#####AULA REGERESSAO I - 15/07/24
+###### exercicio 10.12
+
+
+#quantil
+qf(0.05,4,9)
+qf(0.95,4,9)
+
+#função
+f= function(x) df(x,4,9);f
+
+#grafico
+curve(f,0,5); points(qf(0.05,4,9),0 , pch=19)
+points(qf(0.95,4,9),0 , pch=19)
+
+d= data.frame(Ex10_12); d
+head(d)
+attach(d)
+
+#a) diagrama de dispersao
+plot(x,y,pch= 19)
+
+### b) estimador de minimos quadrados p/ beta0 e beta1
+detach(d)
+m= lm(y~x);m
+
+### b1) adicionar reta no grafico
+
+abline(m, lwd = 2)
+
+### b2) y: tensao
+###     x: idade (semanas)
+
+####adicionar x1 : idade(dias) - adicionar na base de dados
+d['x1']= d$x*7
+head(d)
+
+
+#####b3
+detach(d)
+attach(d)
+m1= lm(y~x1);m1
+plot(x,y,pch= 19)
+abline(m, lwd = 2)
+
+
+####b4
+d['x1']= d$x*120
+head(d)
+
+
+#### c) 20 semanas
+yc= function(x) {m$coe[1] + m$coe[2] *x}
+yc(20)
+m= lm(y~x);m
+plot(x,y,pch= 19)
+abline(m, lwd = 2)
+points(20 , yc(20),pch= 19, col= "red", lwd=5)
+
+##### d) valores preditos
+a= yc(x) ### funçao criada
+b= (m) #### valores do r
+names(m)### todos os valores retornados por m
+e= m$fitted.values
+cbind(x,a,b,e)
+
+plot(yc(x), y, pch = 19)
+
+
+####adicionar x2 : idade(segundos) - adicionar na base de dados
+
+d['x2']= d$x*7*24*60*60
+head(d)
+7*24*60*60
+
+m2=lm(y~d$x2);m2
+plot(d$x2,y,pch=19)
+abline(m2, lwd = 2)
+summary(m)
+summary(m1)
+summary(m2)
+
+####adicionar x3, x4, x5 : - adicionar na base de dados
+
+d['x3']= d$x*7+4
+m3=lm(y~d$x3);m3
+head(d)
+
+d['x4']= d$x*9+100
+m4=lm(y~d$x4);m4
+
+d['x5']= d$x*2+1000
+m5=lm(y~d$x5);m5
+summary(m)
+summary(m1)
+summary(m2)
+summary(m3)
+summary(m4)
+summary(m5)
+
+beta_0= 2625.39 - (4/7)*(-36.96)
+beta_0
+
+#quantil
+qf(0.99,1,50)
+pf(100,1,50)
+y= -0.4+x
+plot(y)
+
+x <- seq(-10, 10, by = 0.1)  # Define os valores de x de -10 a 10 com passo 0.1
+y <- -0.4 + x  # Calcula os valores correspondentes de y para cada x
+x
+y
+plot(x, y, type = "l", col = "blue", lwd = 2,  # Plotar a linha azul grossa
+     xlab = "Eixo X", ylab = "Eixo Y",  # Rótulos dos eixos
+     main = "Curva y = -0.4 + x")  # Título do gráfico
+
+####Aula regressão 24/07
+
+y = c(2, 3, 14, 15, 26); y
+x= c(0,2,4,6,8);x
+plot(x,y)
+z= y+x;z
+m=lm(y~x);m
+m1=lm(z~x);m1
+abline(m)
+summary(m)
+summary(m1)
+?summary
+### exercicio 2.14
+
+x=c(105,130,141,159,160,172);x
+y=c(2042,2301,2421,2518,2606,2718);y
+
+
+sx= sum(x);sx
+sy= sum(y);sy
+
+sx2= sum(x^2);sx2
+sy2= sum(y^2);sy2
+
+n= length(x)
+
+mx= mean(x); mx
+my= mean(y);my
+
+sxx= sum((x- mx)^2);sxx
+syy= sum((y- my)^2);syy
+sx_y=sum(x*y);sx_y
+sxy= sum((x-mx)*(y-my));sxy
+
+espx2= sum(x^2);espx2
+espx_2= sum(x)^2;espx_2
+espy2= sum(y^2);espy2
+espy_2= sum(y)^2;espy_2
+
+
+b_1= (sx_y - (sx*sy)/n)/(sx2 - (sx^2)/n);b_1
+b_0= my - b_1*mx;b_0
+
+
+#ajuste do modelo
+m= lm(y~x); m
+
+###IC
+confint(m)
+confint(m,level = 0.95)
+confi
+
+summary(m)
+anova(m)
+
+###quantil
+qt(0.975,4)
+(n-1)*var(x)
+
+l= (18*x)-y;l
+
+
+###aula 29/07
+
+x= c(2,3,5,8)
+x
+y= c(4,6,9,11)
+y
+m= lm(y~x);m
+
+anova(m)
+ m1= lm(y~poly(x,degree = 3));m1
+ 
+ anova(m1)
+ predict(m1)
+ 
