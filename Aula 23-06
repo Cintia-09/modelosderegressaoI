@@ -1,0 +1,53 @@
+dados= data.frame(Ex11_06);dados
+
+y=dados$y
+x1=dados$X1;x1
+x2=dados$X2;x2
+x3=dados$X3;x3
+x4=dados$X4;x4
+
+#-=-=- Definindo os modelos 
+
+m1=lm(y~x1);m1
+m2=lm(y~x2);m2
+m3=lm(y~x3);m3
+m12=lm(y~x1+x2);m12
+m123=lm(y~x1+x2+x3);m123
+m1234=lm(y~x1+x2+x3+x4);m1234
+
+##d= read.table("Ex11_06", header = TRUE)
+#m= lm(y~,data=d)
+
+summary(m1234)
+
+x= model.matrix(m1234);x
+
+xlx= t(x)%*%x;xlx
+Ixlx= solve(xlx);Ixlx
+j=4;j
+cjj= diag(Ixlx)[j+1];cjj
+
+qt(0.995,7)
+confint(m1234,level = 0.99)
+
+
+x= model.matrix(m1234)
+y=d[,1]
+m1=lm(y~x);m1
+anova(m1)
+
+
+
+
+#-=-=-
+
+#-=-=- Anovas do papel que o prof. entregou em sala 
+a1=anova(m1);a1
+a2=anova(m2);a2
+a3=anova(m3);a3
+a4=anova(m4);a4
+a1234= anova(m1234);a1234
+
+
+#-=-=-
+
